@@ -1,9 +1,9 @@
 # database configuration
 spring:
-#  datasource.url: jdbc:postgresl://ec2-50-19-254-63.compute-1.amazonaws.com:5432/demuicd3rtv48h?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+#  datasource.url: jdbc:postgresl://ec2-34-206-252-187.compute-1.amazonaws.com/ddm9b67hski2lu?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
   datasource.url: jdbc:postgresql://localhost:5432/panda_diary
-#  datasource.username: mqthuehhmkaajk
-#  datasource.password: fa4ae4ef62a58661fec62ef2c3c3ac2e267937b6832418393f3bad272f4afedb
+#  datasource.username: snvlgphqusfcyw
+#  datasource.password: 7796d737e7d9cd0f336b4d8b0e09ef1e35e951b594198bf8f7b4729589ff785f
   datasource.username: pandiary
   datasource.password: Pa55w0rd
   datasource.driver-class-name: org.postgresql.Driver
