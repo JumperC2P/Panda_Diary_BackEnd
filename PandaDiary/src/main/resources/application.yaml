@@ -1,0 +1,13 @@
+# database configuration
+spring:
+#  datasource.url: jdbc:postgresl://ec2-50-19-254-63.compute-1.amazonaws.com:5432/demuicd3rtv48h?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+  datasource.url: jdbc:postgresql://localhost:5432/panda_diary
+#  datasource.username: mqthuehhmkaajk
+#  datasource.password: fa4ae4ef62a58661fec62ef2c3c3ac2e267937b6832418393f3bad272f4afedb
+  datasource.username: pandiary
+  datasource.password: Pa55w0rd
+  datasource.driver-class-name: org.postgresql.Driver
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  jpa.hibernate.ddl-auto: update
+  jpa.hibernate.naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  jpa.hibernate.naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
