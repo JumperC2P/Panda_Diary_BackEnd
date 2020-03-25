@@ -11,7 +11,7 @@
 	<groupId>rmit.sepm</groupId>
 	<artifactId>PandaDiary</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>PandaDiary</name>
 	<description>Dairy Application</description>
 
