@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rmit.sepm.PandaDiary.entity.User;
+import rmit.sepm.PandaDiary.pojo.RegisterBean;
 import rmit.sepm.PandaDiary.repository.UserRepository;
 
 /**
@@ -30,7 +31,22 @@ public class UserService {
 		User user = users.get(0);
 		user.setPassword("");
 		return user;
-		
 	}
+
+//	public User register(RegisterBean registerBean) {
+//		
+//		switch (registerBean.getRole()) {
+//			case 1:
+//				
+//				
+//				
+//				break;
+//			case 2:
+//				break;
+//		}
+//		
+//		
+//		return userRepository.save(user);
+//	}
 
 }
