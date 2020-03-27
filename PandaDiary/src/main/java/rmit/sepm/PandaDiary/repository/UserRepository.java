@@ -19,6 +19,14 @@ public interface UserRepository extends JpaRepository<User, String>{
 				 + "from Users "
 				 + "where email = :email "
 				 + "and password = :password", nativeQuery=true)
-	public List<User> findByEmailAndPassword(@Param(value = "email")String email, @Param(value = "password")String password);
+	List<User> findByEmailAndPassword(@Param(value = "email")String email, @Param(value = "password")String password);
+	
+	@Query(value= "select id from Users " + 
+			"where lower(substring(id,1,1)) = :role " + 
+			"order by id desc " + 
+			"limit 1", nativeQuery = true)
+	String findLastIdByRole(@Param(value="role")String role);
+
+	User findByEmail(String email);
 	
 }

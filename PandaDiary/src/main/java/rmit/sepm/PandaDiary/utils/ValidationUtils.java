@@ -2,8 +2,14 @@ package rmit.sepm.PandaDiary.utils;
 
 import java.util.regex.Pattern;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import rmit.sepm.PandaDiary.entity.User;
+import rmit.sepm.PandaDiary.services.UserService;
 
 /**
  * @author Chih-Hsuan Lee <s3714761>
@@ -11,6 +17,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ValidationUtils {
+	
+	private static UserService staticUserService;
+	
+	@Autowired
+	UserService userService;
+	
+	@PostConstruct
+	private void init() {
+		staticUserService = this.userService;
+	}
 	
 	public static String emailValidation(String email) {
 		
@@ -28,6 +44,10 @@ public class ValidationUtils {
 		if (!Pattern.matches(emailReg, email)) {
 			message = message + "No format of email is wrong. ";
 		}
+		
+		User user = staticUserService.findByEmail(email);
+		if (user != null)
+			message = message + "The email is duplicated. ";
 		
 		return message;
 		

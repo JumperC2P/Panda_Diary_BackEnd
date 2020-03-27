@@ -45,6 +45,6 @@ public class User {
 	private String addressState;
 	
 	@Column(name = "active")
-	private Boolean active;
+	private Boolean active = true;
 
 }

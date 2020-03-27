@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import rmit.sepm.PandaDiary.entity.User;
 import rmit.sepm.PandaDiary.repository.UserRepository;
 
-@Component
-@Order(value=1)
+//@Component
+//@Order(value=1)
 public class DatabaseConnectionTest implements ApplicationRunner{
 	
-	@Autowired
-	UserRepository usersRepository;
+//	@Autowired
+//	UserRepository usersRepository;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
