@@ -28,7 +28,7 @@ public class ValidationUtils {
 		staticUserService = this.userService;
 	}
 	
-	public static String emailValidation(String email) {
+	public static String emailValidation(String email, Boolean isLogin) {
 		
 		String message = "";
 		
@@ -45,9 +45,11 @@ public class ValidationUtils {
 			message = message + "No format of email is wrong. ";
 		}
 		
-		User user = staticUserService.findByEmail(email);
-		if (user != null)
-			message = message + "The email is duplicated. ";
+		if (!isLogin) {
+			User user = staticUserService.findByEmail(email);
+			if (user != null)
+				message = message + "The email is duplicated. ";
+		}
 		
 		return message;
 		
