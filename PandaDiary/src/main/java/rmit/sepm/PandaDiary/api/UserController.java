@@ -31,7 +31,7 @@ public class UserController {
 		
 		ExecuteResult result = new ExecuteResult();
 		
-		String message = ValidationUtils.emailValidation(email);
+		String message = ValidationUtils.emailValidation(email, false);
 		
 		if (!StringUtils.isBlank(message)) {
 			result.setResultCode(1);
@@ -97,7 +97,7 @@ public class UserController {
 			message = message + "No Name. ";
 		}
 		
-		String emailCheckMessage = ValidationUtils.emailValidation(registerBean.getEmail());
+		String emailCheckMessage = ValidationUtils.emailValidation(registerBean.getEmail(), false);
 		if (!StringUtils.isBlank(emailCheckMessage)) {
 			message = message + emailCheckMessage;
 		}
@@ -146,7 +146,7 @@ public class UserController {
 			return message;
 		}
 		
-		String emailCheckMessage = ValidationUtils.emailValidation(loginBean.getEmail());
+		String emailCheckMessage = ValidationUtils.emailValidation(loginBean.getEmail(), true);
 		if (!StringUtils.isBlank(emailCheckMessage)) {
 			message = message + emailCheckMessage;
 		}
