@@ -20,7 +20,7 @@ import rmit.sepm.PandaDiary.utils.ValidationUtils;
  * @author Chih-Hsuan Lee <s3714761>
  *
  */
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UserController {
 	
