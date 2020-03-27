@@ -20,7 +20,7 @@ import rmit.sepm.PandaDiary.utils.ValidationUtils;
  * @author Chih-Hsuan Lee <s3714761>
  *
  */
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
 public class UserController {
 	
