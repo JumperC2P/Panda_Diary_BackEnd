@@ -9,12 +9,16 @@ import org.springframework.util.CollectionUtils;
 
 import rmit.sepm.PandaDiary.constants.Constants;
 import rmit.sepm.PandaDiary.entity.CoverColor;
+import rmit.sepm.PandaDiary.entity.DeliveryOption;
 import rmit.sepm.PandaDiary.entity.Order;
 import rmit.sepm.PandaDiary.entity.PaperColor;
 import rmit.sepm.PandaDiary.entity.PaperType;
+import rmit.sepm.PandaDiary.entity.PurchaseOption;
 import rmit.sepm.PandaDiary.entity.User;
 import rmit.sepm.PandaDiary.pojo.OrderBean;
+import rmit.sepm.PandaDiary.repository.DeliveryOptionRepository;
 import rmit.sepm.PandaDiary.repository.OrderRepository;
+import rmit.sepm.PandaDiary.repository.PurchaseOptionRepository;
 
 /**
  * @author Chih-Hsuan Lee <s3714761>
@@ -25,6 +29,12 @@ public class OrderService {
 	
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	PurchaseOptionRepository purchaseOptionRepository;
+	
+	@Autowired
+	DeliveryOptionRepository deliveryOptionRepository;
 	
 	public List<OrderBean> getTop5Orders(User user){
 		
@@ -42,7 +52,7 @@ public class OrderService {
 			bean.setId(order.getId());
 			
 			@SuppressWarnings("unchecked")
-			List<PaperColor> paperColors = (List<PaperColor>) Constants.PARAMS.get(Constants.DIARY_PARAMETERS_PC);
+			List<PaperColor> paperColors = (List<PaperColor>) Constants.DIARY_PARAMS.get(Constants.DIARY_PARAMETERS_PC);
 			for (PaperColor paperColor : paperColors) {
 				if (order.getPaperColor() == paperColor.getId()) {
 					bean.setPaperColor(paperColor.getDescription());
@@ -50,7 +60,7 @@ public class OrderService {
 				}
 			}
 			@SuppressWarnings("unchecked")
-			List<PaperType> paperTypes = (List<PaperType>) Constants.PARAMS.get(Constants.DIARY_PARAMETERS_PT);
+			List<PaperType> paperTypes = (List<PaperType>) Constants.DIARY_PARAMS.get(Constants.DIARY_PARAMETERS_PT);
 			for (PaperType paperType : paperTypes) {
 				if (order.getPaperType() == paperType.getId()) {
 					bean.setPaperType(paperType.getDescription());
@@ -58,10 +68,24 @@ public class OrderService {
 				}
 			}
 			@SuppressWarnings("unchecked")
-			List<CoverColor> coverColors = (List<CoverColor>) Constants.PARAMS.get(Constants.DIARY_PARAMETERS_CC);
+			List<CoverColor> coverColors = (List<CoverColor>) Constants.DIARY_PARAMS.get(Constants.DIARY_PARAMETERS_CC);
 			for (CoverColor coverColor : coverColors) {
 				if (order.getCoverColor() == coverColor.getId()) {
 					bean.setCoverColor(coverColor.getDescription());
+					break;
+				}
+			}
+			
+			for (PurchaseOption option : Constants.PURCHASE_OPTIONS) {
+				if (order.getPurchaseOption() == option.getId()) {
+					bean.setPurchaseOption(option.getDescription());
+					break;
+				}
+			}
+			
+			for (DeliveryOption option : Constants.DELIVERY_OPTIONS) {
+				if (order.getDeliveryOption() == option.getId()) {
+					bean.setDeliveryOption(option.getDescription());
 					break;
 				}
 			}
@@ -73,11 +97,10 @@ public class OrderService {
 			bean.setReviewScore(order.getReviewScore());
 			bean.setReviewDate(order.getReviewDate());
 			bean.setReviewDesc(order.getReviewDesc());
-			bean.setDeliveryOption(order.getDeliveryOption());
-			bean.setPurchaseOption(order.getPurchaseOption());
+			
 			bean.setPhone(order.getPhone());
 			bean.setDeliveryStreet(order.getDeliveryStreet());
-			bean.setDeliverySurburb(order.getDeliverySurburb());
+			bean.setDeliverySuburb(order.getDeliverySuburb());
 			bean.setDeliveryPostcode(order.getDeliveryPostcode());
 			bean.setDeliveryState(order.getDeliveryState());
 			
@@ -86,6 +109,14 @@ public class OrderService {
 		}
 		
 		return briefOrders;
+	}
+
+	public List<PurchaseOption> getPurchaseOptions() {
+		return purchaseOptionRepository.findAll();
+	}
+
+	public List<DeliveryOption> getDeliveryOptions() {
+		return deliveryOptionRepository.findAll();
 	}
 
 }

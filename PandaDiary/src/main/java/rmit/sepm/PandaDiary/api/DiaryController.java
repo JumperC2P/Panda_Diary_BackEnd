@@ -28,7 +28,7 @@ public class DiaryController {
 		
 		ExecuteResult result = new ExecuteResult();
 		
-		if (Constants.PARAMS == null) {
+		if (Constants.DIARY_PARAMS == null) {
 			Map<String, Object> parameters = dairyService.getDiaryParameters(Constants.ALL_DIARY_PARAMETERS);
 			
 			if (parameters == null) {
@@ -40,7 +40,7 @@ public class DiaryController {
 			}
 		}else {
 			result.setResultCode(0);
-			result.setReturnObj(Constants.PARAMS);
+			result.setReturnObj(Constants.DIARY_PARAMS);
 		}
 		
 		

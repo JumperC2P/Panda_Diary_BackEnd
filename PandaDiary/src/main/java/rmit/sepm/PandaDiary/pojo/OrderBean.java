@@ -24,11 +24,11 @@ public class OrderBean {
 	private Integer reviewScore;
 	private Date reviewDate;
 	private String reviewDesc;
-	private Integer purchaseOption;
-	private Integer deliveryOption;
+	private String purchaseOption;
+	private String deliveryOption;
 	private String phone;
 	private String deliveryStreet;
-	private String deliverySurburb;
+	private String deliverySuburb;
 	private String deliveryPostcode;
 	private String deliveryState;
 	

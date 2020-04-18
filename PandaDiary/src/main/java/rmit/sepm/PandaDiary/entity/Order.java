@@ -49,8 +49,8 @@ public class Order {
 	@Column(name = "delivery_street")
 	private String deliveryStreet;
 	
-	@Column(name = "delivery_surburb")
-	private String deliverySurburb;
+	@Column(name = "delivery_suburb")
+	private String deliverySuburb;
 	
 	@Column(name = "delivery_postcode")
 	private String deliveryPostcode;
