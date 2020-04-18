@@ -13,7 +13,7 @@ import rmit.sepm.PandaDiary.entity.Order;
 import rmit.sepm.PandaDiary.entity.PaperColor;
 import rmit.sepm.PandaDiary.entity.PaperType;
 import rmit.sepm.PandaDiary.entity.User;
-import rmit.sepm.PandaDiary.pojo.BriefOrderBean;
+import rmit.sepm.PandaDiary.pojo.OrderBean;
 import rmit.sepm.PandaDiary.repository.OrderRepository;
 
 /**
@@ -26,7 +26,7 @@ public class OrderService {
 	@Autowired
 	OrderRepository orderRepository;
 	
-	public List<BriefOrderBean> getTop5Orders(User user){
+	public List<OrderBean> getTop5Orders(User user){
 		
 		List<Order> orders = orderRepository.findTop5ByBuyer(user.getId());
 		
@@ -34,11 +34,11 @@ public class OrderService {
 			return null;
 		}
 		
-		List<BriefOrderBean> briefOrders = new ArrayList<>();
+		List<OrderBean> briefOrders = new ArrayList<>();
 		
 		for (Order order : orders) {
 			
-			BriefOrderBean bean = new BriefOrderBean();
+			OrderBean bean = new OrderBean();
 			bean.setId(order.getId());
 			
 			@SuppressWarnings("unchecked")
@@ -73,6 +73,14 @@ public class OrderService {
 			bean.setReviewScore(order.getReviewScore());
 			bean.setReviewDate(order.getReviewDate());
 			bean.setReviewDesc(order.getReviewDesc());
+			bean.setDeliveryOption(order.getDeliveryOption());
+			bean.setPurchaseOption(order.getPurchaseOption());
+			bean.setPhone(order.getPhone());
+			bean.setDeliveryStreet(order.getDeliveryStreet());
+			bean.setDeliverySurburb(order.getDeliverySurburb());
+			bean.setDeliveryPostcode(order.getDeliveryPostcode());
+			bean.setDeliveryState(order.getDeliveryState());
+			
 			
 			briefOrders.add(bean);
 		}

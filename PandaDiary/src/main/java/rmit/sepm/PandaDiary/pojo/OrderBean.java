@@ -2,6 +2,8 @@ package rmit.sepm.PandaDiary.pojo;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
+
 import lombok.Data;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Data;
  *
  */
 @Data
-public class BriefOrderBean {
+public class OrderBean {
 	
 	private String id;
 	private String paperColor;
@@ -22,6 +24,13 @@ public class BriefOrderBean {
 	private Integer reviewScore;
 	private Date reviewDate;
 	private String reviewDesc;
+	private Integer purchaseOption;
+	private Integer deliveryOption;
+	private String phone;
+	private String deliveryStreet;
+	private String deliverySurburb;
+	private String deliveryPostcode;
+	private String deliveryState;
 	
 
 }

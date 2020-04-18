@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import rmit.sepm.PandaDiary.entity.User;
-import rmit.sepm.PandaDiary.pojo.BriefOrderBean;
+import rmit.sepm.PandaDiary.pojo.OrderBean;
 import rmit.sepm.PandaDiary.pojo.ExecuteResult;
 import rmit.sepm.PandaDiary.services.OrderService;
 import rmit.sepm.PandaDiary.services.UserService;
@@ -50,7 +50,7 @@ public class OrderController {
 			return result;
 		}
 		
-		List<BriefOrderBean> histories = orderService.getTop5Orders(user);
+		List<OrderBean> histories = orderService.getTop5Orders(user);
 		
 		result.setResultCode(0);
 		result.setReturnObj(histories);
