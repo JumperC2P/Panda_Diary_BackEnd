@@ -26,13 +26,13 @@ public class Order {
 	private String buyer;
 	
 	@Column(name = "paper_type")
-	private String paperType;
+	private Integer paperType;
 	
 	@Column(name = "paper_color")
-	private String paperColor;
+	private Integer paperColor;
 	
 	@Column(name = "cover_color")
-	private String coverColor;
+	private Integer coverColor;
 	
 	@Column(name = "title_on_cover")
 	private String titleOnCover;

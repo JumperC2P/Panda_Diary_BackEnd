@@ -28,15 +28,22 @@ public class DiaryController {
 		
 		ExecuteResult result = new ExecuteResult();
 		
-		Map<String, Object> parameters = dairyService.getDiaryParameters(Constants.ALL_DIARY_PARAMETERS);
-		
-		if (parameters == null) {
-			result.setResultCode(1);
-			result.setReturnObj("Failed to get parameters for diary customization.");
+		if (Constants.PARAMS == null) {
+			Map<String, Object> parameters = dairyService.getDiaryParameters(Constants.ALL_DIARY_PARAMETERS);
+			
+			if (parameters == null) {
+				result.setResultCode(1);
+				result.setReturnObj("Failed to get parameters for diary customization.");
+			}else {
+				result.setResultCode(0);
+				result.setReturnObj(parameters);
+			}
 		}else {
 			result.setResultCode(0);
-			result.setReturnObj(parameters);
+			result.setReturnObj(Constants.PARAMS);
 		}
+		
+		
 		
 		return result;
 	}

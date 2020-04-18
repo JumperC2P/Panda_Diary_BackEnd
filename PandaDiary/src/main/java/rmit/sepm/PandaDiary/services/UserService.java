@@ -1,6 +1,7 @@
 package rmit.sepm.PandaDiary.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +72,15 @@ public class UserService {
 		user.setPassword(registerBean.getPassword());
 		
 		return userRepository.save(user);
+	}
+
+	public User findByUserId(String userId) {
+		Optional<User> users = userRepository.findById(userId);
+		
+		if (users != null) {
+			return users.get();
+		}
+		return null;
 	}
 
 }
