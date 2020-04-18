@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import rmit.sepm.PandaDiary.constants.Constants;
+import rmit.sepm.PandaDiary.entity.DeliveryOption;
+import rmit.sepm.PandaDiary.entity.PurchaseOption;
 import rmit.sepm.PandaDiary.entity.User;
-import rmit.sepm.PandaDiary.pojo.OrderBean;
 import rmit.sepm.PandaDiary.pojo.ExecuteResult;
+import rmit.sepm.PandaDiary.pojo.OrderBean;
 import rmit.sepm.PandaDiary.services.OrderService;
 import rmit.sepm.PandaDiary.services.UserService;
 
@@ -57,6 +60,62 @@ public class OrderController {
 		
 		return result;
 		
+	}
+	
+	@RequestMapping(value="getPurchaseOptions", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody ExecuteResult getPurchaseOptions() {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		if (Constants.PURCHASE_OPTIONS == null) {
+			List<PurchaseOption> parameters = orderService.getPurchaseOptions();
+			
+			if (parameters == null) {
+				result.setResultCode(1);
+				result.setReturnObj("Failed to get parameters for purchase options.");
+			}else {
+				result.setResultCode(0);
+				result.setReturnObj(parameters);
+			}
+		}else {
+			result.setResultCode(0);
+			result.setReturnObj(Constants.PURCHASE_OPTIONS);
+		}
+		
+		return result;
+	}
+
+	@RequestMapping(value="getPurchaseOptions", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody ExecuteResult getPurchaseOptions_GET() {
+		return getPurchaseOptions();
+	}
+	
+	@RequestMapping(value="getDeliveryOptions", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
+	public @ResponseBody ExecuteResult getDeliveryOptions() {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		if (Constants.DELIVERY_OPTIONS == null) {
+			List<DeliveryOption> parameters = orderService.getDeliveryOptions();
+			
+			if (parameters == null) {
+				result.setResultCode(1);
+				result.setReturnObj("Failed to get parameters for delivery options.");
+			}else {
+				result.setResultCode(0);
+				result.setReturnObj(parameters);
+			}
+		}else {
+			result.setResultCode(0);
+			result.setReturnObj(Constants.DELIVERY_OPTIONS);
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value="getDeliveryOptions", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody ExecuteResult getDeliveryOptions_GET() {
+		return getDeliveryOptions();
 	}
 
 }
