@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, String>{
 	@Query(value = "select *\n" + 
 					"from orders o\n" + 
 					"where o.buyer = :userId \n" + 
-					"order by o.id desc limit 5;", nativeQuery=true)
-	List<Order> findTop5ByBuyer(@Param(value="userId")String userId);
+					"order by o.id desc limit :number", nativeQuery=true)
+	List<Order> findByBuyerWithLimit(@Param(value="userId")String userId, @Param(value="number") Integer number);
 
 }

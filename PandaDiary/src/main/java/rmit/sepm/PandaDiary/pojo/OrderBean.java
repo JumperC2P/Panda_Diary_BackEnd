@@ -14,6 +14,7 @@ import lombok.Data;
 public class OrderBean {
 	
 	private String id;
+	private String buyer;
 	private String paperColor;
 	private String paperType;
 	private String coverColor;

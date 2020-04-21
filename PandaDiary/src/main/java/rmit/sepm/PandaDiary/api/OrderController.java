@@ -34,8 +34,8 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 	
-	@RequestMapping(value="historyTop5", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public @ResponseBody ExecuteResult getHistoryTop5(@RequestParam(value="userid")String userId) {
+	@RequestMapping(value="getOrderHistory", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult getHistoryTop5(@RequestParam(value="userId")String userId, @RequestParam(value="number")Integer number) {
 		
 		ExecuteResult result = new ExecuteResult();
 		
@@ -53,7 +53,12 @@ public class OrderController {
 			return result;
 		}
 		
-		List<OrderBean> histories = orderService.getTop5Orders(user);
+		List<OrderBean> histories = null;
+		
+		if (number == -1)
+			histories = orderService.getAllOrders();
+		else
+			histories = orderService.getHistoryOrders(user, number);
 		
 		result.setResultCode(0);
 		result.setReturnObj(histories);

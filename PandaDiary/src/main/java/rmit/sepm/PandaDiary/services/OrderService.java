@@ -36,13 +36,18 @@ public class OrderService {
 	@Autowired
 	DeliveryOptionRepository deliveryOptionRepository;
 	
-	public List<OrderBean> getTop5Orders(User user){
+	public List<OrderBean> getHistoryOrders(User user, Integer number){
 		
-		List<Order> orders = orderRepository.findTop5ByBuyer(user.getId());
+		List<Order> orders = orderRepository.findByBuyerWithLimit(user.getId(), number);
 		
 		if (CollectionUtils.isEmpty(orders)) {
 			return null;
 		}
+		
+		return transformOrders(orders);
+	}
+	
+	private List<OrderBean> transformOrders(List<Order> orders) {
 		
 		List<OrderBean> briefOrders = new ArrayList<>();
 		
@@ -50,6 +55,7 @@ public class OrderService {
 			
 			OrderBean bean = new OrderBean();
 			bean.setId(order.getId());
+			bean.setBuyer(order.getBuyer());
 			
 			@SuppressWarnings("unchecked")
 			List<PaperColor> paperColors = (List<PaperColor>) Constants.DIARY_PARAMS.get(Constants.DIARY_PARAMETERS_PC);
@@ -109,6 +115,17 @@ public class OrderService {
 		}
 		
 		return briefOrders;
+	}
+
+	public List<OrderBean> getAllOrders(){
+		
+		List<Order> orders = orderRepository.findAll();
+		
+		if (CollectionUtils.isEmpty(orders)) {
+			return null;
+		}
+		
+		return transformOrders(orders);
 	}
 
 	public List<PurchaseOption> getPurchaseOptions() {
