@@ -3,6 +3,8 @@ package rmit.sepm.PandaDiary.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +21,7 @@ import rmit.sepm.PandaDiary.pojo.OrderBean;
 import rmit.sepm.PandaDiary.repository.DeliveryOptionRepository;
 import rmit.sepm.PandaDiary.repository.OrderRepository;
 import rmit.sepm.PandaDiary.repository.PurchaseOptionRepository;
+import rmit.sepm.PandaDiary.utils.DateUtils;
 
 /**
  * @author Chih-Hsuan Lee <s3714761>
@@ -134,6 +137,59 @@ public class OrderService {
 
 	public List<DeliveryOption> getDeliveryOptions() {
 		return deliveryOptionRepository.findAll();
+	}
+
+	public String addOrder(OrderBean orderBean) {
+		
+		String lastOrderId = orderRepository.findLastOrderId();
+		
+		if (StringUtils.isBlank(lastOrderId)) {
+			return null;
+		}
+		
+		Integer id = Integer.valueOf(lastOrderId.substring(lastOrderId.length()-2));
+		
+		String lastOrderDate = lastOrderId.substring(0, lastOrderId.length()-2);
+		String today = DateUtils.getDateWithYYYYMMDD();
+		if (StringUtils.equals(today, lastOrderDate)) {
+			id++;
+		}else {
+			id = 1;
+		}
+		
+		String idString = String.valueOf(id);
+		if (id < 10) {
+			idString = today + "0" + id;
+		}else {
+			idString = today + id;
+		}
+		
+		Order order = new Order();
+		order.setId(idString);
+		order.setBuyer(orderBean.getBuyer());
+		order.setPaperType(Integer.valueOf(orderBean.getPaperType()));
+		order.setPaperColor(Integer.valueOf(orderBean.getPaperColor()));
+		order.setCoverColor(Integer.valueOf(orderBean.getCoverColor()));
+		order.setTitleOnCover(orderBean.getTitleOnCover());
+		order.setPurchaseOption(Integer.valueOf(orderBean.getPurchaseOption()));
+		order.setDeliveryOption(Integer.valueOf(orderBean.getDeliveryOption()));
+		order.setPhone(orderBean.getPhone());
+		order.setDeliveryStreet(orderBean.getDeliveryStreet());
+		order.setDeliverySuburb(orderBean.getDeliverySuburb());
+		order.setDeliveryPostcode(orderBean.getDeliveryPostcode());
+		order.setDeliveryState(orderBean.getDeliveryState());
+		order.setOrderDate(DateUtils.getToday());
+		order.setPrice(orderBean.getPrice());
+		
+		Order addOrder = null;
+		try {
+			addOrder = orderRepository.save(order);
+		} catch (Exception e) {}
+		
+		if (addOrder == null)
+			return null;
+		
+		return idString;
 	}
 
 }

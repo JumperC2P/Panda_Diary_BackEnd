@@ -1,5 +1,6 @@
 package rmit.sepm.PandaDiary.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -75,5 +76,8 @@ public class Order {
 	
 	@Column(name = "review_desc")
 	private String reviewDesc;
+	
+	@Column(name = "price")
+	private BigDecimal price;
 
 }

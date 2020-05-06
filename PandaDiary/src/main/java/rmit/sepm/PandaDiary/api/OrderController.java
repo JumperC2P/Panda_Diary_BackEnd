@@ -34,8 +34,52 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 	
+	@RequestMapping(value="send", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult sendOrder(OrderBean orderBean) {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		String message = this.validateOrder(orderBean);
+		
+		if (!StringUtils.isBlank(message)) {
+			result.setResultCode(1);
+			result.setReturnObj(message);
+			return result;
+		}
+		
+		String orderId = orderService.addOrder(orderBean);
+		
+		if (StringUtils.isBlank(orderId)) {
+			result.setResultCode(2);
+			result.setReturnObj("Something is wrong. Please contact with administrator.");
+			return result;
+		}
+		
+		result.setResultCode(0);
+		result.setReturnObj(orderId);
+		
+		return result;
+		
+	}
+	
+	private String validateOrder(OrderBean orderBean) {
+		
+		String message = "";
+		if (StringUtils.isBlank(orderBean.getPhone())) {
+			message = "No phone.";
+		}
+		if (StringUtils.isBlank(orderBean.getDeliveryStreet()) || StringUtils.isBlank(orderBean.getDeliveryPostcode())
+				|| StringUtils.isBlank(orderBean.getDeliverySuburb())) {
+			if (!StringUtils.isBlank(message))
+				message = message + " ";
+			message = "Address is incomplete.";
+		}
+		
+		return message;
+	}
+
 	@RequestMapping(value="getOrderHistory", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public @ResponseBody ExecuteResult getHistoryTop5(@RequestParam(value="userId")String userId, @RequestParam(value="number")Integer number) {
+	public @ResponseBody ExecuteResult getOrderHistory(@RequestParam(value="userId")String userId, @RequestParam(value="number")Integer number) {
 		
 		ExecuteResult result = new ExecuteResult();
 		
