@@ -1,8 +1,7 @@
 package rmit.sepm.PandaDiary.pojo;
 
+import java.math.BigDecimal;
 import java.sql.Date;
-
-import javax.persistence.Column;
 
 import lombok.Data;
 
@@ -32,6 +31,6 @@ public class OrderBean {
 	private String deliverySuburb;
 	private String deliveryPostcode;
 	private String deliveryState;
-	
+	private BigDecimal price;
 
 }
