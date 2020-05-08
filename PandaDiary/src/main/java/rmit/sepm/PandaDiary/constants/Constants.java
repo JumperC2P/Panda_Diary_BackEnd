@@ -24,4 +24,5 @@ public class Constants {
 	
 	public static List<PurchaseOption> PURCHASE_OPTIONS = null;
 	public static List<DeliveryOption> DELIVERY_OPTIONS = null;
+	
 }

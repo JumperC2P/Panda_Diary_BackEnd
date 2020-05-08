@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +59,40 @@ public class DiaryService {
 		
 		return params;
 	}
+	
+	public CoverColor addCoverColors(String description) {
+		
+		Integer lastId = coverColorRepository.findLastId();
+		
+		CoverColor newCoverColor = new CoverColor();
+		newCoverColor.setId(lastId+1);
+		newCoverColor.setDescription(description);
+		
+		return coverColorRepository.save(newCoverColor);
+	}
 
+	public PaperColor addPaperColors(String description) {
+		
+
+		Integer lastId = paperColorRepository.findLastId();
+		
+		PaperColor newPaperColor = new PaperColor();
+		newPaperColor.setId(lastId+1);
+		newPaperColor.setDescription(description);
+		
+		return paperColorRepository.save(newPaperColor);
+	}
+	
+	public PaperType addPaperTypes(String description) {
+		
+
+		Integer lastId = paperTypeRepository.findLastId();
+		
+		PaperType newPaperType = new PaperType();
+		newPaperType.setId(lastId+1);
+		newPaperType.setDescription(description);
+		
+		return paperTypeRepository.save(newPaperType);
+	}
+	
 }
