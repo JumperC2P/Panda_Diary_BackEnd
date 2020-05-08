@@ -22,5 +22,8 @@ public class PaperType {
 	
 	@Column (name = "description")
 	private String description;
+	
+	@Column (name = "active")
+	private Boolean active;
 
 }

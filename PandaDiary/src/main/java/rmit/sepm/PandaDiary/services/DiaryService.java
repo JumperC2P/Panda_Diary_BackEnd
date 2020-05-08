@@ -94,5 +94,119 @@ public class DiaryService {
 		
 		return paperTypeRepository.save(newPaperType);
 	}
+
+	public Boolean deleteCoverColors(List<PaperColor> deleteOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor temp: deleteOptions) {
+			
+			CoverColor item = new CoverColor();
+			item.setId(temp.getId());
+			item.setDescription(temp.getDescription());
+			item.setActive(false);
+			
+			CoverColor save = coverColorRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;
+	}
+
+	public Boolean deletePaperTypes(List<PaperColor> deleteOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor temp: deleteOptions) {
+			
+			PaperType item = new PaperType();
+			item.setId(temp.getId());
+			item.setDescription(temp.getDescription());
+			item.setActive(false);
+			
+			PaperType save = paperTypeRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;
+	}
+
+	public Boolean deletePaperColors(List<PaperColor> deleteOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor item: deleteOptions) {
+			
+			item.setActive(false);
+			
+			PaperColor save = paperColorRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;
+	}
+
+	public Boolean recoverCoverColors(List<PaperColor> recoverOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor temp: recoverOptions) {
+			
+			CoverColor item = new CoverColor();
+			item.setId(temp.getId());
+			item.setDescription(temp.getDescription());
+			item.setActive(true);
+			
+			CoverColor save = coverColorRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;
+	}
+
+	public Boolean recoverPaperTypes(List<PaperColor> recoverOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor temp: recoverOptions) {
+			
+			PaperType item = new PaperType();
+			item.setId(temp.getId());
+			item.setDescription(temp.getDescription());
+			item.setActive(true);
+			
+			PaperType save = paperTypeRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;
+	}
+
+	public Boolean recoverPaperColors(List<PaperColor> recoverOptions) {
+		
+		Boolean result = true;
+		
+		for (PaperColor item: recoverOptions) {
+			
+			item.setActive(true);
+			
+			PaperColor save = paperColorRepository.save(item);
+			if (save == null) {
+				return false;
+			}
+		}
+		
+		return result;	
+	}
 	
 }
