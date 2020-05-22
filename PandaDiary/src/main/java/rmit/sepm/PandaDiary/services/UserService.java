@@ -24,6 +24,10 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
+	public List<User> findAll(){
+		return userRepository.findAll();
+	}
+	
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
@@ -37,6 +41,9 @@ public class UserService {
 		}
 		
 		User user = users.get(0);
+		if (!user.getActive()) {
+			return null;
+		}
 		user.setPassword("");
 		return user;
 	}

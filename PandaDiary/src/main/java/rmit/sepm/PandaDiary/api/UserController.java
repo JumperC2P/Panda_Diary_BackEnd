@@ -1,5 +1,8 @@
 package rmit.sepm.PandaDiary.api;
 
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,6 +28,32 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@RequestMapping(value="getAllUser", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult getAllUser(User user) {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		User userF = userService.findByUserId(user.getId());
+		
+		if (userF == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot find the user.");
+			return result;
+		}
+		
+		List<User> users = userService.findAll();
+		
+		if (CollectionUtils.isEmpty(users)) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot get users.");
+			return result;
+		}
+		
+		result.setResultCode(0);
+		result.setReturnObj(users);
+		return result;
+	}
 	
 	@RequestMapping(value="checkEmail", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public @ResponseBody ExecuteResult emailChecker(@RequestParam(value="email")String email) {
