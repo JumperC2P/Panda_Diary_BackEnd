@@ -55,6 +55,32 @@ public class UserController {
 		return result;
 	}
 	
+	@RequestMapping(value="changeActive", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult changeActive(User user) {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		User userF = userService.findByUserId(user.getId());
+		
+		if (userF == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot find the user.");
+			return result;
+		}
+		
+		User userU = userService.changeActive(userF, user.getActive());
+		
+		if (userU == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot change the user status");
+			return result;
+		}
+		
+		result.setResultCode(0);
+		result.setReturnObj(userU);
+		return result;
+	}
+	
 	@RequestMapping(value="checkEmail", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public @ResponseBody ExecuteResult emailChecker(@RequestParam(value="email")String email) {
 		

@@ -1,5 +1,6 @@
 package rmit.sepm.PandaDiary.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,11 @@ public class UserService {
 	UserRepository userRepository;
 	
 	public List<User> findAll(){
-		return userRepository.findAll();
+		List<User> users = userRepository.findAll();
+				
+		Collections.sort(users, (p1, p2) -> p1.getId().compareTo(p2.getId()));
+		
+		return users;
 	}
 	
 	public User findByEmail(String email) {
@@ -88,6 +93,11 @@ public class UserService {
 			return users.get();
 		}
 		return null;
+	}
+
+	public User changeActive(User userF, Boolean active) {
+		userF.setActive(active);
+		return userRepository.save(userF);
 	}
 
 }
