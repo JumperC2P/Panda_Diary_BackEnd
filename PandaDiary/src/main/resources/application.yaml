@@ -1,11 +1,11 @@
 # database configuration
 spring:
-  datasource.url: jdbc:postgresl://ec2-3-222-150-253.compute-1.amazonaws.com/d8dq2gfanm8v6d?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
-  #datasource.url: jdbc:postgresql://localhost:5432/panda_diary
-  datasource.username: ysbekpkfzxcvvr
-  datasource.password: e673865a9d5820c5c67fe37ac157547d82435d6ca687a8b8cf99422b1e829bdf
-  #datasource.username: pandiary
-  #datasource.password: Pa55w0rd
+  #datasource.url: jdbc:postgresl://ec2-3-222-150-253.compute-1.amazonaws.com/d8dq2gfanm8v6d?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+  datasource.url: jdbc:postgresql://localhost:5432/panda_diary
+  #datasource.username: ysbekpkfzxcvvr
+  #datasource.password: e673865a9d5820c5c67fe37ac157547d82435d6ca687a8b8cf99422b1e829bdf
+  datasource.username: pandiary
+  datasource.password: Pa55w0rd
   datasource.driver-class-name: org.postgresql.Driver
   jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
   jpa.hibernate.ddl-auto: update

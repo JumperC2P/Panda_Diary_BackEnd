@@ -1,6 +1,12 @@
 package rmit.sepm.PandaDiary.services;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +23,7 @@ import rmit.sepm.PandaDiary.entity.PaperType;
 import rmit.sepm.PandaDiary.entity.PurchaseOption;
 import rmit.sepm.PandaDiary.entity.User;
 import rmit.sepm.PandaDiary.pojo.OrderBean;
+import rmit.sepm.PandaDiary.pojo.ReportBean;
 import rmit.sepm.PandaDiary.repository.DeliveryOptionRepository;
 import rmit.sepm.PandaDiary.repository.OrderRepository;
 import rmit.sepm.PandaDiary.repository.PurchaseOptionRepository;
@@ -189,6 +196,158 @@ public class OrderService {
 			return null;
 		
 		return idString;
+	}
+
+	public File getReport(Integer period) {
+		
+		String fileRoot = System.getProperty("user.dir")+"/src/main/resources/files/reports/";
+		
+		List<Order> orders = orderRepository.findAll();
+		orders.sort((o1, o2) -> o1.getOrderDate().compareTo(o2.getOrderDate()));
+		
+		String filePath = "";
+		if (period == null || period == 0) {
+			filePath = this.weeklyReport(fileRoot, orders);
+		}else {
+			filePath = this.monthlyReport(fileRoot, orders);
+		}
+		return new File(filePath);
+	}
+
+	private String monthlyReport(String fileRoot, List<Order> orders) {
+		FileWriter writer = null;
+		PrintWriter pw = null;
+		try {
+			writer = new FileWriter(fileRoot+"report-monthly.csv");
+			pw = new PrintWriter(writer);
+			
+			List<ReportBean> groups = this.seperateByMonthly(orders);
+			for (ReportBean group : groups) {
+				pw.write("Month " + group.getPeroid() + ", Total Profit: " + group.getSum() + "\n");
+				pw.write("Order ID,Buyer,Paper Type, Paper Color, Cover Color, Title, Purchase Option, Delivery Option, Phone, Street, Suburb, Postcode, State, Order Date, Delivery Date, Close Date, Review Score, Review Date, Review, Price\n");
+				for (Order order : group.getOrders()) {
+					pw.write(order.toString()+"\n");
+				}
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if (pw != null)
+				pw.close();
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {}
+		}
+		return fileRoot+"report-monthly.csv";
+	}
+
+	private List<ReportBean> seperateByMonthly(List<Order> orders) {
+		List<ReportBean> beans = new ArrayList<>();
+		List<Order> temp = new ArrayList<>();
+		ReportBean rb = new ReportBean();
+		BigDecimal sum = BigDecimal.ZERO;
+		String oldPeriod = null;
+		for (Order order : orders) {
+			
+			Calendar calendar = Calendar. getInstance();
+			calendar.setTime(order.getOrderDate());
+			String month = calendar.get(Calendar.YEAR)+"-"+String.valueOf(calendar.get(Calendar.MONTH)+1);
+			
+			if (oldPeriod == null || month.equals(oldPeriod)) {
+				temp.add(order);
+				sum = sum.add(order.getPrice());
+				oldPeriod = month;
+			}else {
+				rb = new ReportBean();
+				rb.setPeroid(oldPeriod);
+				rb.setOrders(temp);
+				rb.setSum(sum);
+				beans.add(rb);
+				sum = BigDecimal.ZERO;
+				temp = new ArrayList<>();
+				temp.add(order);
+				sum = sum.add(order.getPrice());
+				oldPeriod = month;
+			}
+		}
+		rb = new ReportBean();
+		rb.setPeroid(oldPeriod);
+		rb.setOrders(temp);
+		rb.setSum(sum);
+		beans.add(rb);
+		
+		return beans;
+	}
+
+	private String weeklyReport(String fileRoot, List<Order> orders) {
+		FileWriter writer = null;
+		PrintWriter pw = null;
+		try {
+			writer = new FileWriter(fileRoot+"report-weekly.csv");
+			pw = new PrintWriter(writer);
+			
+			List<ReportBean> groups = this.seperateByWeekly(orders);
+			for (ReportBean group : groups) {
+				pw.write("WEEK " + group.getPeroid() + ", Total Profit: " + group.getSum() + "\n");
+				pw.write("Order ID,Buyer,Paper Type, Paper Color, Cover Color, Title, Purchase Option, Delivery Option, Phone, Street, Suburb, Postcode, State, Order Date, Delivery Date, Close Date, Review Score, Review Date, Review, Price\n");
+				for (Order order : group.getOrders()) {
+					pw.write(order.toString()+"\n");
+				}
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if (pw != null)
+				pw.close();
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {}
+		}
+		return fileRoot+"report-weekly.csv";
+	}
+
+	private List<ReportBean> seperateByWeekly(List<Order> orders) {
+		
+		List<ReportBean> beans = new ArrayList<>();
+		List<Order> temp = new ArrayList<>();
+		ReportBean rb = null;
+		BigDecimal sum = BigDecimal.ZERO;
+		String oldPeriod = null;
+		for (Order order : orders) {
+			
+			Calendar calendar = Calendar. getInstance();
+			calendar.setTime(order.getOrderDate());
+			String weekOfYear = String.valueOf(calendar.get(Calendar.WEEK_OF_YEAR));
+			
+			if (oldPeriod == null || weekOfYear.equals(oldPeriod)) {
+				temp.add(order);
+				sum = sum.add(order.getPrice());
+				oldPeriod = weekOfYear;
+			}else {
+				rb = new ReportBean();
+				rb.setPeroid(oldPeriod);
+				rb.setOrders(temp);
+				rb.setSum(sum);
+				beans.add(rb);
+				
+				sum = BigDecimal.ZERO;
+				temp = new ArrayList<>();
+				temp.add(order);
+				sum = sum.add(order.getPrice());
+				oldPeriod = weekOfYear;
+			}
+		}
+		rb = new ReportBean();
+		rb.setPeroid(oldPeriod);
+		rb.setOrders(temp);
+		rb.setSum(sum);
+		beans.add(rb);
+		
+		return beans;
 	}
 
 }

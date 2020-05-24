@@ -79,5 +79,9 @@ public class Order {
 	
 	@Column(name = "price")
 	private BigDecimal price;
+	
+	public String toString() {
+		return id+","+buyer+","+paperType+","+paperColor+","+coverColor+","+titleOnCover+","+purchaseOption+","+deliveryOption+","+phone+","+deliveryStreet+","+deliverySuburb+","+deliveryPostcode+","+deliveryState+","+orderDate+","+deliveryDate+","+closeDate+","+reviewScore+","+reviewDate+","+reviewDesc+","+price;
+	}
 
 }

@@ -100,4 +100,8 @@ public class UserService {
 		return userRepository.save(userF);
 	}
 
+	public User updateUserProfile(User user) {
+		return userRepository.save(user);
+	}
+
 }

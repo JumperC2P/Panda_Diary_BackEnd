@@ -29,6 +29,42 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+
+	@RequestMapping(value="updateUserProfile", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult updateUserProfile(User user) {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		if (user == null || user.getId() == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Nothing to update.");
+			return result;
+		}
+		
+		User userA = userService.findByUserId(user.getId());
+		
+		if (userA == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot find the admin.");
+			return result;
+		}
+		
+		user.setPassword(userA.getPassword());
+		User userU = userService.updateUserProfile(user);
+		
+		if (userU == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Failed to update the user profile");
+			return result;
+		}
+		
+		result.setResultCode(0);
+		result.setReturnObj(userU);
+		
+		return result;
+	}	
+	
+	
 	@RequestMapping(value="getAllUser", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public @ResponseBody ExecuteResult getAllUser(User user) {
 		
