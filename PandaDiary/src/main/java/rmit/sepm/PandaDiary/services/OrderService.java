@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -348,6 +349,21 @@ public class OrderService {
 		beans.add(rb);
 		
 		return beans;
+	}
+
+	public Order findById(String orderId) {
+		Optional<Order> orders = orderRepository.findById(orderId);
+		if (orders != null) {
+			return orders.get();
+		}
+		return null;
+	}
+
+	public Order addReview(Order orderS, Integer reviewScore, String reviewDesc) {
+		orderS.setReviewDate(DateUtils.getToday());
+		orderS.setReviewScore(reviewScore);
+		orderS.setReviewDesc(reviewDesc);
+		return orderRepository.save(orderS);
 	}
 
 }
