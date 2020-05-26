@@ -118,7 +118,7 @@ public class OrderService {
 			bean.setDeliverySuburb(order.getDeliverySuburb());
 			bean.setDeliveryPostcode(order.getDeliveryPostcode());
 			bean.setDeliveryState(order.getDeliveryState());
-			
+			bean.setPrice(order.getPrice());
 			
 			briefOrders.add(bean);
 		}
