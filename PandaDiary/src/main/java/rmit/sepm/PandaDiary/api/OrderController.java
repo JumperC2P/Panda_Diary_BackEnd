@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rmit.sepm.PandaDiary.constants.Constants;
 import rmit.sepm.PandaDiary.entity.DeliveryOption;
+import rmit.sepm.PandaDiary.entity.Order;
 import rmit.sepm.PandaDiary.entity.PurchaseOption;
 import rmit.sepm.PandaDiary.entity.User;
 import rmit.sepm.PandaDiary.pojo.ExecuteResult;
@@ -105,6 +106,49 @@ public class OrderController {
 		}
 		
 		return message;
+	}
+	
+	@RequestMapping(value="addReview", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public @ResponseBody ExecuteResult addReview(@RequestParam(value="userId")String userId, @RequestParam(value="orderId")String orderId, @RequestParam(value="reviewScore") Integer reviewScore, @RequestParam(value="reviewDesc") String reviewDesc) {
+		
+		ExecuteResult result = new ExecuteResult();
+		
+		if (StringUtils.isAllBlank(userId)) {
+			result.setResultCode(1);
+			result.setReturnObj("No user id.");
+			return result;
+		}
+		
+		User user = userService.findByUserId(userId);
+		
+		if (user == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot find the user.");
+			return result;
+		}
+		
+		Order orderS = orderService.findById(orderId);
+		
+		if (orderS == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot find the order.");
+			return result;
+		}
+		
+		Order order = orderService.addReview(orderS, reviewScore, reviewDesc);
+		
+		if (order == null) {
+			result.setResultCode(1);
+			result.setReturnObj("Cannot update the order.");
+			return result;
+		}
+		
+		
+		result.setResultCode(0);
+		result.setReturnObj(order);
+		
+		return result;
+		
 	}
 
 	@RequestMapping(value="getOrderHistory", method = RequestMethod.POST, produces = "application/json; charset=UTF-8", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
